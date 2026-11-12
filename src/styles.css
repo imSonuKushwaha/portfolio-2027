@@ -1,0 +1,380 @@
+/* The reference manual: a cream sheet, ink line work, seven board hues used as dividers.
+   A section's hue (--hue, with --hue-text on it) shows on its rail tab, the 24 px band,
+   the heading rule, leaf crumbs and punched holes, and never behind running text. */
+
+:root {
+  --sheet: #f6f4ee;
+  --acetate: #fbfbf7;
+  --board-neutral: #d6d2c6;
+  --ink: #16181a;
+  --board-orange: #e8742c;
+  --board-yellow: #f2c21b;
+  --board-grass: #4e9a51;
+  --board-teal: #2f8f8f;
+  --board-ultramarine: #2c4fb5;
+  --board-violet: #6b4fbf;
+  --board-sienna: #8c4a2f;
+
+  /* The surface a control sits on: the sheet, or the acetate inside a leaf. */
+  --ground: var(--sheet);
+  --shadow-hard: 2px 2px 0 var(--ink);
+  --hairline: 1px solid color-mix(in oklch, var(--ink) 18%, transparent);
+  --ink-70: color-mix(in oklch, var(--ink) 70%, var(--ground));
+
+  /* State changes advance in two frames; only a pointer-opened leaf turns on the hinge. */
+  --step: 90ms steps(2, end);
+  --ease-hinge: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --font-sans: 'Archivo', system-ui, sans-serif;
+  --font-serif: 'EB Garamond', Georgia, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --shell-top: 48px;
+  --rail: 36px;
+  --band: 24px;
+  --shell-bottom: 0px;
+}
+
+* { box-sizing: border-box; }
+
+/* The scrollbar is always drawn and its gutter always reserved, so the page never shifts. */
+html {
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+}
+html::-webkit-scrollbar, .leaf::-webkit-scrollbar { width: 12px; }
+html::-webkit-scrollbar-track { background: var(--sheet); border-left: 1px solid var(--ink); }
+.leaf::-webkit-scrollbar-track { background: var(--acetate); border-left: var(--hairline); }
+html::-webkit-scrollbar-thumb { background: var(--ink); border: 3px solid var(--sheet); border-left-width: 4px; }
+.leaf::-webkit-scrollbar-thumb { background: var(--ink); border: 3px solid var(--acetate); border-left-width: 4px; }
+html::-webkit-scrollbar-thumb:hover, .leaf::-webkit-scrollbar-thumb:hover { background: color-mix(in oklch, var(--ink) 78%, var(--sheet)); }
+@supports not selector(::-webkit-scrollbar) {
+  html { scrollbar-color: var(--ink) var(--sheet); }
+  .leaf { scrollbar-color: var(--ink) var(--acetate); }
+}
+
+body {
+  margin: 0;
+  background: var(--sheet);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.43;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-underline-offset: 3px; }
+
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.label {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+.data { font-family: var(--font-mono); font-size: 13px; }
+
+.skip-link {
+  position: fixed; left: 8px; top: -48px; z-index: 60;
+  background: var(--ink); color: var(--sheet); padding: 8px 12px;
+}
+.skip-link:focus { top: 8px; }
+
+/* ---------- Top bar ---------- */
+
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 30;
+  height: var(--shell-top);
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 0 calc(var(--rail) + 16px) 0 24px;
+  background: var(--sheet);
+  border-bottom: 1px solid var(--ink);
+}
+.topbar-title {
+  font-weight: 700; font-size: 1.125rem; font-stretch: 75%;
+  text-transform: uppercase; letter-spacing: -0.01em; text-decoration: none;
+}
+.topbar-links { display: flex; gap: 16px; }
+.topbar-links a { text-decoration: none; }
+.topbar-links a:hover { text-decoration: underline; }
+
+/* ---------- Shell: page, board band, rail ---------- */
+
+.shell { display: flex; min-height: 100vh; padding-top: var(--shell-top); }
+
+.page {
+  flex: 1; min-width: 0;
+  padding: 24px 24px 64px;
+  border-right: var(--band) solid var(--hue);
+  transition: opacity var(--step);
+}
+.page.is-under { opacity: 0.7; }
+.page-body { animation: step-in var(--step) both; }
+
+@keyframes step-in { from { opacity: 0; } to { opacity: 1; } }
+
+.rail {
+  position: sticky; top: var(--shell-top); z-index: 25;
+  flex: none; width: var(--rail); height: calc(100vh - var(--shell-top));
+  display: flex; flex-direction: column; align-items: flex-start;
+  overflow-y: auto; scrollbar-width: none;
+}
+
+/* A tab is a ply: 8 px fore-edge corners, a 1 px ink edge, a 3 px step over the ply above. */
+.rail-link {
+  position: relative; isolation: isolate; flex: none;
+  display: flex; align-items: center; justify-content: center;
+  width: var(--rail); padding: 14px 0; margin-top: -3px;
+  writing-mode: vertical-rl; white-space: nowrap;
+  background: var(--tab-hue); color: var(--tab-text);
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--ink); border-left: 0; border-radius: 0 8px 8px 0;
+  transition: transform var(--step);
+}
+.rail-link:first-child { margin-top: 0; }
+.rail-link:focus-visible { outline: 2px solid var(--sheet); outline-offset: -4px; box-shadow: inset 0 0 0 2px var(--ink); }
+
+/* The current tab: pulled out 16 px and joined to the band; its fore edge keeps the ink outline. */
+.rail-link[aria-current='page'] {
+  transform: translateX(-16px); padding-left: 16px; z-index: 1;
+  border-color: transparent; border-radius: 0;
+}
+.rail-link[aria-current='page']::before {
+  content: ''; position: absolute; z-index: -1;
+  top: -1px; bottom: -1px; left: 16px; right: -17px;
+  background: var(--tab-hue);
+  border: 1px solid var(--ink); border-left: 0; border-radius: 0 8px 8px 0;
+}
+
+/* ---------- Page heads ---------- */
+
+.page-head { border-bottom: 2px solid var(--hue); padding-bottom: 12px; margin-bottom: 20px; max-width: 72rem; }
+.display {
+  font-weight: 700; font-size: 2.25rem; line-height: 1.1; letter-spacing: -0.025em;
+  font-stretch: 75%; margin: 4px 0 8px;
+}
+.display:focus { outline: none; }
+.lede { font-family: var(--font-serif); font-size: 1.125rem; line-height: 1.375; max-width: 60ch; margin: 0; }
+
+.prose { max-width: 72rem; }
+.prose p { font-family: var(--font-serif); font-size: 1.125rem; line-height: 1.5; margin: 0 0 16px; }
+
+.facts {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  gap: 0; margin: 20px 0 0; border-top: 1px solid var(--ink); max-width: 72rem;
+}
+.facts div { padding: 10px 12px 10px 0; border-bottom: var(--hairline); }
+.facts dt { color: var(--ink-70); }
+.facts dd { margin: 4px 0 0; font-weight: 600; font-size: 1.125rem; font-stretch: 80%; }
+.contact { margin-top: 32px; }
+.contact h2 { margin: 0 0 8px; }
+
+/* ---------- Contents ---------- */
+
+.identity { display: flex; flex-wrap: wrap; gap: 4px 20px; margin: 0 0 24px; }
+
+.swatches {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 16px; max-width: 72rem;
+}
+.swatch {
+  display: flex; flex-direction: column; gap: 6px; min-height: 9rem;
+  padding: 16px 12px;
+  background: var(--hue); color: var(--hue-text);
+  border: 1px solid var(--ink); box-shadow: var(--shadow-hard);
+  text-decoration: none;
+}
+.swatch h2 { margin: 0; font-weight: 700; font-size: 1.5rem; line-height: 1.2; letter-spacing: -0.025em; font-stretch: 75%; }
+.swatch p { margin: 0; font-family: var(--font-serif); font-size: 1rem; line-height: 1.375; }
+@media (hover: hover) and (pointer: fine) {
+  .swatch { transition: transform var(--step), box-shadow var(--step); }
+  .swatch:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--ink); }
+}
+
+/* ---------- Record cards ---------- */
+
+.cards { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; max-width: 72rem; }
+
+.card {
+  position: relative;
+  display: grid; grid-template-columns: 1fr auto; gap: 6px 16px; align-items: baseline;
+  width: 100%; padding: 18px 20px 18px 32px;
+  text-align: left; text-decoration: none; cursor: pointer;
+  font: inherit; color: var(--ink);
+  background: var(--ground);
+  border: 1px solid var(--ink); box-shadow: var(--shadow-hard);
+  transition: background-color var(--step), transform var(--step), box-shadow var(--step);
+}
+.card-title { font-weight: 700; font-size: 1.5rem; line-height: 1.2; letter-spacing: -0.025em; font-stretch: 75%; }
+.card-open { white-space: nowrap; }
+.card-score { white-space: nowrap; font-weight: 500; font-size: 15px; }
+/* A card that only shows information: no pointer, no lift. */
+.card.is-static { cursor: default; }
+.card.is-static:hover { transform: none; box-shadow: var(--shadow-hard); }
+.card-meta { grid-column: 1 / -1; color: var(--ink-70); }
+.card-sum { grid-column: 1 / -1; font-family: var(--font-serif); font-size: 1.125rem; line-height: 1.375; max-width: 64ch; }
+
+@media (hover: hover) and (pointer: fine) {
+  .card:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--ink); }
+}
+.card:active { transform: none; box-shadow: var(--shadow-hard); }
+
+/* The punched hole marks the open card. */
+.card[aria-pressed='true'] { background: color-mix(in oklch, var(--ink) 4%, var(--ground)); }
+.card[aria-pressed='true']::before {
+  content: ''; position: absolute; left: 11px; top: 27px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--hue); box-shadow: inset 0 0 0 1.5px var(--ink);
+}
+
+/* ---------- Chips and buttons ---------- */
+
+.groups { display: grid; gap: 20px; max-width: 72rem; }
+.group h2 { margin: 0 0 8px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0; }
+.chips li {
+  display: inline-flex; align-items: center; height: 24px; padding: 0 8px;
+  font-family: var(--font-mono); font-size: 12px;
+  border: 1px solid color-mix(in oklch, var(--ink) 35%, var(--ground)); border-radius: 2px;
+}
+
+.btn {
+  display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 12px;
+  font: 500 12px var(--font-sans); color: var(--ink); background: var(--ground);
+  border: 1px solid var(--ink); border-radius: 2px; cursor: pointer;
+  transition: background-color var(--step), transform var(--step);
+}
+@media (hover: hover) { .btn:hover { background: color-mix(in oklch, var(--ink) 7%, var(--ground)); } }
+.btn:active { transform: scale(0.97); }
+
+/* ---------- Leaf: an acetate ply on the section's board, right of the list ---------- */
+
+/* The leaf is capped to its text measure plus its chrome (hinge margin, padding, scrollbar, the
+   12 px of board on its right), so it never carries empty acetate. Both use the layer's 14 px ch. */
+.leaf-layer {
+  --leaf-measure: 95ch;
+  position: fixed; z-index: 20;
+  top: var(--shell-top); right: var(--rail); bottom: var(--shell-bottom);
+  width: min(calc((100vw - var(--rail)) * 0.8), calc(var(--leaf-measure) + 80px));
+  background: var(--hue);
+  perspective: 1200px;
+}
+@media (max-width: 899px) { .leaf-layer { width: calc(100vw - var(--rail)); } }
+
+.leaf-crumbs {
+  position: absolute; top: 0; left: 0; right: 0; height: 1.5rem;
+  display: flex; align-items: center; padding: 0 12px; overflow: hidden;
+  color: var(--hue-text);
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em; white-space: pre;
+}
+.crumb-link { padding: 0; border: 0; background: none; color: inherit; font: inherit; letter-spacing: inherit; cursor: pointer; }
+.crumb-link:hover { text-decoration: underline; }
+.crumb-link:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.leaf {
+  --depth: 0;
+  --ground: var(--acetate);
+  position: absolute; isolation: isolate; z-index: calc(var(--depth) + 1);
+  top: calc(1.5rem + var(--depth) * 8px); bottom: 0;
+  left: calc(var(--depth) * 24px); right: 12px;
+  overflow-y: auto;
+  background: var(--acetate);
+  border-left: var(--hairline);
+  box-shadow: var(--shadow-hard);
+  transform-origin: left center;
+}
+.leaf.turn-in { animation: leaf-turn-in 260ms var(--ease-hinge) both; backface-visibility: hidden; }
+.leaf.turn-out { animation: leaf-turn-out 140ms var(--ease-hinge) both; backface-visibility: hidden; }
+
+@keyframes leaf-turn-in {
+  from { transform: rotateY(-16deg) translateX(-14px); opacity: 0; }
+  to { transform: rotateY(0deg) translateX(0); opacity: 1; }
+}
+@keyframes leaf-turn-out {
+  from { transform: rotateY(0deg); opacity: 1; }
+  to { transform: rotateY(-8deg); opacity: 0; }
+}
+
+/* A shadow cast on the dimmed list left of the hinge; it sweeps in with the turn and fades. */
+.leaf-wedge {
+  position: absolute; top: 1.5rem; bottom: 0; left: 0; width: 72px; translate: -100% 0;
+  pointer-events: none;
+  background: linear-gradient(to right, transparent, color-mix(in oklch, var(--ink) 22%, transparent));
+  animation: leaf-wedge 260ms var(--ease-hinge) both;
+}
+@keyframes leaf-wedge {
+  0% { clip-path: inset(0 100% 0 0); opacity: 1; }
+  70% { opacity: 1; }
+  100% { clip-path: inset(0 0 0 0); opacity: 0; }
+}
+
+/* Two holes punched in the 28 px hinge margin; the board hue shows through. */
+.leaf-hole {
+  position: absolute; left: 9px; width: 10px; height: 10px; border-radius: 50%;
+  background: var(--hue); box-shadow: inset 0 0 0 1.5px var(--ink);
+}
+.leaf-hole-1 { top: 14px; }
+.leaf-hole-2 { top: 36px; }
+
+.leaf-head {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;
+  padding: 12px 16px 12px 36px; border-bottom: var(--hairline);
+}
+.leaf-title {
+  margin: 0; font-weight: 700; font-size: 1.5rem; line-height: 1.33; letter-spacing: -0.025em; font-stretch: 75%;
+}
+.leaf-title:focus, .leaf-title:focus-visible { outline: none; }
+.leaf-kicker { margin: 2px 0 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; color: var(--ink-70); }
+.leaf-actions { display: flex; gap: 8px; flex: none; }
+.leaf-related { margin: 4px 0 0; display: flex; flex-wrap: wrap; gap: 0 16px; }
+.leaf-related a { display: inline-flex; align-items: center; min-height: 24px; text-decoration: underline; text-decoration-thickness: 1px; }
+.leaf-related a:hover { text-decoration-thickness: 2px; }
+
+.leaf-body { padding: 16px 16px 32px 36px; max-width: var(--leaf-measure); }
+.leaf-body .summary { font-family: var(--font-serif); font-size: 1.125rem; line-height: 1.375; margin: 0 0 14px; }
+.leaf-body .points { margin: 0 0 18px; padding-left: 18px; font-family: var(--font-serif); font-size: 1.0625rem; line-height: 1.4; }
+.leaf-body .points li { margin-bottom: 6px; }
+.leaf-body .detail { margin-top: 28px; padding-top: 16px; border-top: 2px solid var(--hue); }
+.detail-title { margin: 0; font-weight: 700; font-size: 1.25rem; line-height: 1.3; letter-spacing: -0.02em; font-stretch: 75%; }
+.leaf-body .detail .leaf-kicker { margin-bottom: 10px; }
+
+/* ---------- Narrow screens ---------- */
+
+@media (max-width: 719px) {
+  :root { --rail: 0px; --band: 0px; --shell-bottom: 3.5rem; }
+  .topbar { padding: 0 16px; }
+  .topbar-links { display: none; }
+  .page { padding: 16px 16px 88px; border-right: 0; border-top: 12px solid var(--hue); }
+
+  .rail {
+    position: fixed; top: auto; left: 0; right: 0; bottom: 0;
+    width: auto; height: 3.5rem; padding: 0 8px;
+    flex-direction: row; align-items: flex-end;
+    overflow-x: auto; overflow-y: hidden;
+    background: var(--sheet); border-top: 1px solid var(--ink);
+  }
+  .rail-link {
+    writing-mode: horizontal-tb; width: auto; height: 2.5rem; padding: 0 12px;
+    margin-top: 0; margin-left: -3px;
+    border: 1px solid var(--ink); border-bottom: 0; border-radius: 8px 8px 0 0;
+  }
+  .rail-link:first-child { margin-left: 0; }
+  .rail-link[aria-current='page'] { transform: translateY(-8px); padding-left: 12px; border-color: transparent; border-radius: 0; }
+  .rail-link[aria-current='page']::before {
+    top: 0; left: -1px; right: -1px; bottom: -9px;
+    border: 1px solid var(--ink); border-bottom: 0; border-radius: 8px 8px 0 0;
+  }
+
+  .leaf-layer { right: 0; width: 100vw; }
+  .leaf { right: 0; left: calc(var(--depth) * 12px); }
+  .leaf-head { flex-direction: column; align-items: stretch; gap: 0.5rem; }
+  .leaf-body { padding: 16px 16px 32px 36px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .leaf.turn-in { animation: step-in 120ms steps(2, end) both; }
+  .leaf.turn-out { animation: step-out 90ms steps(2, end) both; }
+  .leaf-wedge { display: none; }
+  .swatch, .swatch:hover, .card, .card:hover { transition: none; transform: none; }
+}
+@keyframes step-out { from { opacity: 1; } to { opacity: 0; } }
