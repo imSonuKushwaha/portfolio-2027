@@ -135,8 +135,9 @@ export default function App() {
       <header className="topbar">
         <a className="topbar-title" href="#/">{profile.name}</a>
         <nav className="topbar-links label" aria-label="Profiles">
-          <a href={`mailto:${profile.email}`}>Email</a>
-          {profile.links.map((l) => <a key={l.href} href={l.href} target="_blank" rel="noreferrer">{l.label}</a>)}
+          <a className="topbar-more" href={`mailto:${profile.email}`}>Email</a>
+          {profile.links.map((l) => <a key={l.href} className="topbar-more" href={l.href} target="_blank" rel="noreferrer">{l.label}</a>)}
+          <a className="topbar-resume" href={profile.resume} target="_blank" rel="noreferrer">Resume ↗</a>
         </nav>
       </header>
 

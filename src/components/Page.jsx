@@ -33,6 +33,7 @@ function Contents({ sections, headingRef }) {
           <span>{profile.role}</span>
           <span>{profile.location}</span>
           <a href={`mailto:${profile.email}`}>{profile.email}</a>
+          <a href={profile.resume} target="_blank" rel="noreferrer">Resume ↗</a>
         </p>
       </header>
       <nav className="swatches" aria-label="Chapters">
@@ -44,6 +45,7 @@ function Contents({ sections, headingRef }) {
           </a>
         ))}
       </nav>
+      <NameMark />
     </article>
   )
 }
@@ -103,8 +105,22 @@ function Contact() {
           </div>
         ))}
         <div><dt className="label">Location</dt><dd>{profile.location}</dd></div>
+        <div><dt className="label">Resume</dt><dd><a href={profile.resume} target="_blank" rel="noreferrer">View PDF ↗</a></dd></div>
       </dl>
     </section>
+  )
+}
+
+// The name in large condensed type. Its ink outline draws in and fills, then reverses, on a
+// continuous loop; under reduced motion it is drawn filled and still. The viewBox width fits
+// "SONU" exactly at this font size, so CSS alone places it (right on desktop, centred on phones).
+function NameMark() {
+  return (
+    <div className="namemark" aria-hidden="true">
+      <svg viewBox="0 0 258 100">
+        <text x="0" y="88">{profile.mark}</text>
+      </svg>
+    </div>
   )
 }
 

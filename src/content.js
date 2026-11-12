@@ -12,6 +12,9 @@ export const profile = {
   role: 'Frontend Developer',
   location: 'Noida, India',
   email: 'imxonu@gmail.com',
+  resume: 'https://drive.google.com/file/d/1CDcioPyBIhngWfMhdpy_0xMLRD9DxxQu/view?usp=sharing',
+  // The word drawn by the name animation on the Contents page.
+  mark: 'SONU',
   links: [
     { label: 'linkedin', href: 'https://www.linkedin.com/in/im-sonu/' },
     { label: 'github', href: 'https://github.com/imSonuKushwaha' },
