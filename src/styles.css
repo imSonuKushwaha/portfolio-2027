@@ -316,11 +316,11 @@ a { color: inherit; text-underline-offset: 3px; }
 .leaf-hole-1 { top: 14px; }
 .leaf-hole-2 { top: 36px; }
 
-.leaf-head {
-  display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;
-  padding: 12px 16px 12px 36px; border-bottom: var(--hairline);
-}
+.leaf-head { padding: 12px 16px 12px 36px; border-bottom: var(--hairline); }
+/* The title and its actions always share one row; a long title wraps beside the buttons. */
+.leaf-titlebar { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .leaf-title {
+  min-width: 0; overflow-wrap: anywhere;
   margin: 0; font-weight: 700; font-size: 1.5rem; line-height: 1.33; letter-spacing: -0.025em; font-stretch: 75%;
 }
 .leaf-title:focus, .leaf-title:focus-visible { outline: none; }
@@ -367,7 +367,7 @@ a { color: inherit; text-underline-offset: 3px; }
 
   .leaf-layer { right: 0; width: 100vw; }
   .leaf { right: 0; left: calc(var(--depth) * 12px); }
-  .leaf-head { flex-direction: column; align-items: stretch; gap: 0.5rem; }
+  .leaf-title { font-size: 1.25rem; }
   .leaf-body { padding: 16px 16px 32px 36px; }
 }
 

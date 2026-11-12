@@ -40,15 +40,15 @@ export default function Leaf({ entry, depth, isTop, onBack, onClose }) {
       <span className="leaf-hole leaf-hole-1" aria-hidden="true" />
       <span className="leaf-hole leaf-hole-2" aria-hidden="true" />
       <header className="leaf-head">
-        <div>
+        <div className="leaf-titlebar">
           <h2 id={titleId} className="leaf-title" tabIndex={-1}>{record.title}</h2>
-          {record.meta && <p className="leaf-kicker">{record.meta}</p>}
-          <Links links={record.links} />
+          <div className="leaf-actions">
+            {onBack && <button type="button" className="btn" onClick={onBack}>Back</button>}
+            <button type="button" className="btn" onClick={onClose}>Close</button>
+          </div>
         </div>
-        <div className="leaf-actions">
-          {onBack && <button type="button" className="btn" onClick={onBack}>Back</button>}
-          <button type="button" className="btn" onClick={onClose}>Close</button>
-        </div>
+        {record.meta && <p className="leaf-kicker">{record.meta}</p>}
+        <Links links={record.links} />
       </header>
       <div className="leaf-body">
         {record.summary && <p className="summary">{record.summary}</p>}
