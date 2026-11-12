@@ -290,7 +290,6 @@ a { color: inherit; text-underline-offset: 3px; }
   overflow-y: auto;
   background: var(--acetate);
   border-left: var(--hairline);
-  box-shadow: var(--shadow-hard);
   transform-origin: left center;
 }
 /* Opening and closing: the board grows out of the section's 24 px band and the leaf slides out
