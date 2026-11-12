@@ -181,26 +181,6 @@ a { color: inherit; text-underline-offset: 3px; }
 
 .identity { display: flex; flex-wrap: wrap; gap: 4px 20px; margin: 0 0 24px; }
 
-/* The name mark: an ink outline that draws in, fills, then reverses, on a 4 s loop.
-   The dash lengths are percentages of the SVG's diagonal, long enough to cover every outline. */
-/* Right-aligned to the card grid's edge; centred on narrow screens. */
-.namemark { max-width: 72rem; margin: 48px 0 0; }
-.namemark svg { display: block; width: min(100%, 27.2rem); height: auto; margin-left: auto; overflow: visible; }
-@media (max-width: 719px) {
-  .namemark svg { margin-right: auto; width: min(85%, 34rem); }
-}
-.namemark text {
-  font-family: var(--font-sans); font-weight: 800; font-stretch: 75%; font-size: 112px;
-  letter-spacing: -2px;
-  fill: var(--ink); stroke: var(--ink); stroke-width: 0;
-}
-.namemark text { animation: name-draw 4s ease-in-out infinite alternate; }
-@keyframes name-draw {
-  0% { fill: transparent; stroke-width: 1.5; stroke-dasharray: 0 40%; stroke-dashoffset: 25%; }
-  50% { fill: transparent; stroke-width: 1.5; }
-  80%, 100% { fill: var(--ink); stroke-width: 0; stroke-dasharray: 40% 0; stroke-dashoffset: -25%; }
-}
-
 .swatches {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
   gap: 16px; max-width: 72rem;
@@ -403,7 +383,6 @@ a { color: inherit; text-underline-offset: 3px; }
   .leaf.turn-in { animation: step-in 120ms steps(2, end) both; }
   .leaf.turn-out { animation: step-out 90ms steps(2, end) both; }
   .leaf-wedge { display: none; }
-  .namemark text { animation: none; }
   .swatch, .swatch:hover, .card, .card:hover { transition: none; transform: none; }
 }
 @keyframes step-out { from { opacity: 1; } to { opacity: 0; } }

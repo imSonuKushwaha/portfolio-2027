@@ -45,7 +45,6 @@ function Contents({ sections, headingRef }) {
           </a>
         ))}
       </nav>
-      <NameMark />
     </article>
   )
 }
@@ -111,18 +110,6 @@ function Contact() {
   )
 }
 
-// The name in large condensed type. Its ink outline draws in and fills, then reverses, on a
-// continuous loop; under reduced motion it is drawn filled and still. The viewBox width fits
-// "SONU" exactly at this font size, so CSS alone places it (right on desktop, centred on phones).
-function NameMark() {
-  return (
-    <div className="namemark" aria-hidden="true">
-      <svg viewBox="0 0 258 100">
-        <text x="0" y="88">{profile.mark}</text>
-      </svg>
-    </div>
-  )
-}
 
 function Facts({ facts }) {
   return (
