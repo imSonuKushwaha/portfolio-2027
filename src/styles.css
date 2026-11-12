@@ -24,6 +24,9 @@
   /* State changes advance in two frames; only a pointer-opened leaf turns on the hinge. */
   --step: 90ms steps(2, end);
   --ease-hinge: cubic-bezier(0.16, 1, 0.3, 1);
+  /* A leaf leaves the band fast and settles; going back it accelerates into the band. */
+  --ease-slide: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-slide-out: cubic-bezier(0.55, 0, 0.75, 0.3);
 
   --font-sans: 'Archivo', system-ui, sans-serif;
   --font-serif: 'EB Garamond', Georgia, serif;
@@ -113,7 +116,7 @@ a { color: inherit; text-underline-offset: 3px; }
   flex: 1; min-width: 0;
   padding: 24px 24px 64px;
   border-right: var(--band) solid var(--hue);
-  transition: opacity var(--step);
+  transition: opacity 300ms ease;
 }
 .page.is-under { opacity: 0.7; }
 .page-body { animation: step-in var(--step) both; }
@@ -265,7 +268,6 @@ a { color: inherit; text-underline-offset: 3px; }
   top: var(--shell-top); right: var(--rail); bottom: var(--shell-bottom);
   width: min(calc((100vw - var(--rail)) * 0.8), calc(var(--leaf-measure) + 80px));
   background: var(--hue);
-  perspective: 1200px;
 }
 @media (max-width: 899px) { .leaf-layer { width: calc(100vw - var(--rail)); } }
 
@@ -291,30 +293,24 @@ a { color: inherit; text-underline-offset: 3px; }
   box-shadow: var(--shadow-hard);
   transform-origin: left center;
 }
-.leaf.turn-in { animation: leaf-turn-in 260ms var(--ease-hinge) both; backface-visibility: hidden; }
-.leaf.turn-out { animation: leaf-turn-out 140ms var(--ease-hinge) both; backface-visibility: hidden; }
+/* Opening and closing: the board grows out of the section's 24 px band and the leaf slides out
+   with it; closing reverses both. The layer's clip hides everything still inside the band.
+   Phones (see the narrow-screen block) do the same downward from the 12 px strip under the top bar.
+   SLIDE_OUT_MS in App.jsx matches the 220 ms close. */
+.leaf-layer.slide-in { animation: board-in 300ms var(--ease-slide) both; }
+.leaf-layer.slide-out { animation: board-out 220ms var(--ease-slide-out) both; }
+.leaf.slide-in { animation: leaf-in 300ms var(--ease-slide) both; }
+.leaf.slide-out { animation: leaf-out 220ms var(--ease-slide-out) both; }
 
-@keyframes leaf-turn-in {
-  from { transform: rotateY(-16deg) translateX(-14px); opacity: 0; }
-  to { transform: rotateY(0deg) translateX(0); opacity: 1; }
-}
-@keyframes leaf-turn-out {
-  from { transform: rotateY(0deg); opacity: 1; }
-  to { transform: rotateY(-8deg); opacity: 0; }
-}
+@keyframes board-in { from { clip-path: inset(0 0 0 calc(100% - var(--band))); } to { clip-path: inset(0); } }
+@keyframes board-out { from { clip-path: inset(0); } to { clip-path: inset(0 0 0 calc(100% - var(--band))); } }
+@keyframes leaf-in { from { transform: translateX(calc(100% + 12px)); } to { transform: none; } }
+@keyframes leaf-out { from { transform: none; } to { transform: translateX(calc(100% + 12px)); } }
 
-/* A shadow cast on the dimmed list left of the hinge; it sweeps in with the turn and fades. */
-.leaf-wedge {
-  position: absolute; top: 1.5rem; bottom: 0; left: 0; width: 72px; translate: -100% 0;
-  pointer-events: none;
-  background: linear-gradient(to right, transparent, color-mix(in oklch, var(--ink) 22%, transparent));
-  animation: leaf-wedge 260ms var(--ease-hinge) both;
-}
-@keyframes leaf-wedge {
-  0% { clip-path: inset(0 100% 0 0); opacity: 1; }
-  70% { opacity: 1; }
-  100% { clip-path: inset(0 0 0 0); opacity: 0; }
-}
+@keyframes board-down-in { from { clip-path: inset(0 0 calc(100% - 12px) 0); } to { clip-path: inset(0); } }
+@keyframes board-up-out { from { clip-path: inset(0); } to { clip-path: inset(0 0 calc(100% - 12px) 0); } }
+@keyframes leaf-down-in { from { transform: translateY(-100%); } to { transform: none; } }
+@keyframes leaf-up-out { from { transform: none; } to { transform: translateY(-100%); } }
 
 /* Two holes punched in the 28 px hinge margin; the board hue shows through. */
 .leaf-hole {
@@ -375,14 +371,19 @@ a { color: inherit; text-underline-offset: 3px; }
 
   .leaf-layer { right: 0; width: 100vw; }
   .leaf { right: 0; left: calc(var(--depth) * 12px); }
+  .leaf-layer.slide-in { animation-name: board-down-in; }
+  .leaf-layer.slide-out { animation-name: board-up-out; }
+  .leaf.slide-in { animation-name: leaf-down-in; }
+  .leaf.slide-out { animation-name: leaf-up-out; }
   .leaf-title { font-size: 1.25rem; }
   .leaf-body { padding: 16px 16px 32px 36px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .leaf.turn-in { animation: step-in 120ms steps(2, end) both; }
-  .leaf.turn-out { animation: step-out 90ms steps(2, end) both; }
-  .leaf-wedge { display: none; }
+  .leaf-layer.slide-in { animation: step-in 120ms steps(2, end) both; }
+  .leaf-layer.slide-out { animation: step-out 90ms steps(2, end) both; }
+  .leaf.slide-in, .leaf.slide-out { animation: none; }
+  .page { transition: none; }
   .swatch, .swatch:hover, .card, .card:hover { transition: none; transform: none; }
 }
 @keyframes step-out { from { opacity: 1; } to { opacity: 0; } }

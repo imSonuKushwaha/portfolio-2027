@@ -6,7 +6,9 @@ import Page from './components/Page.jsx'
 import Leaf from './components/Leaf.jsx'
 
 const ORDER = ['contents', ...sections.map((s) => s.id)]
-const CLOSE_TURN_MS = 140
+// Matches the slide-out duration in styles.css; reduced motion uses its shorter fade.
+const SLIDE_OUT_MS = 220
+const FADE_OUT_MS = 90
 
 // The page id from the address: "#/experience" → "experience"; anything unknown → "contents".
 const readRoute = () => {
@@ -45,42 +47,37 @@ export default function App() {
     headingRef.current?.focus({ preventScroll: true })
   }, [route])
 
-  // Opens `record` at `depth`, replacing any leaves from there up. Only a pointer open turns
-  // the hinge (event.detail > 0); swapping the first leaf for another row has no motion.
+  // Opens `record` at `depth`, replacing any leaves from there up. A leaf slides out of the
+  // section's band on every open, by pointer or key; swapping an open leaf for another has no motion.
   const openAt = useCallback((depth) => (record, event) => {
-    const pointer = event.detail > 0
     const opener = event.currentTarget
     setStack((s) => {
       const swap = depth === 0 && s.length > 0
-      const motion = pointer && !swap ? 'turn-in' : null
-      return [...s.slice(0, depth), { key: nextKey++, record, motion, opener }]
+      return [...s.slice(0, depth), { key: nextKey++, record, motion: swap ? null : 'slide-in', opener }]
     })
   }, [])
 
-  // Closes the leaves at `depth` and above. A pointer close turns them out first; a key closes at once.
+  // Closes the leaves at `depth` and above: they slide back into the band, then unmount.
   // Focus returns to the control that opened the lowest closed leaf.
-  const closeFrom = useCallback((depth, event) => {
+  const closeFrom = useCallback((depth) => {
     const s = stackRef.current
-    if (depth >= s.length) return
+    if (depth >= s.length || s[depth].motion === 'slide-out') return
     const opener = s[depth].opener
     // Back to the opener; if it is gone, to the title of the leaf that is now on top.
     const refocus = () => requestAnimationFrame(() => {
       if (opener?.isConnected) opener.focus({ preventScroll: true })
       else document.querySelector('[data-leaf-top] .leaf-title')?.focus({ preventScroll: true })
     })
-    if ((event?.detail ?? 0) === 0) {
-      setStack((cur) => cur.slice(0, depth))
-      refocus()
-      return
-    }
-    setStack((cur) => cur.map((e, i) => (i >= depth ? { ...e, motion: 'turn-out' } : e)))
+    setStack((cur) => cur.map((e, i) => (i >= depth ? { ...e, motion: 'slide-out' } : e)))
     setTimeout(() => {
       setStack((cur) => cur.slice(0, depth))
       refocus()
-    }, prefersReducedMotion() ? 90 : CLOSE_TURN_MS)
+    }, prefersReducedMotion() ? FADE_OUT_MS : SLIDE_OUT_MS)
   }, [])
 
   const leavesOpen = stack.length > 0
+  // The whole stack is on its way back into the band: the page un-dims alongside it.
+  const leavesClosing = leavesOpen && stack[0].motion === 'slide-out'
 
   useEffect(() => {
     pageRef.current?.toggleAttribute('inert', leavesOpen)
@@ -142,7 +139,7 @@ export default function App() {
       </header>
 
       <div className="shell">
-        <main id="main" ref={pageRef} className={`page${leavesOpen ? ' is-under' : ''}`}>
+        <main id="main" ref={pageRef} className={`page${leavesOpen && !leavesClosing ? ' is-under' : ''}`}>
           <Page
             ref={headingRef}
             route={route}
@@ -155,7 +152,7 @@ export default function App() {
       </div>
 
       {leavesOpen && (
-        <div className="leaf-layer">
+        <div className={`leaf-layer${stack[0].motion ? ` ${stack[0].motion}` : ''}`}>
           <nav className="leaf-crumbs" aria-label="Trail">
             {crumbs.map((c, i) => {
               const last = i === crumbs.length - 1
@@ -169,7 +166,6 @@ export default function App() {
               )
             })}
           </nav>
-          {stack[0].motion === 'turn-in' && <div className="leaf-wedge" aria-hidden="true" />}
           {stack.map((entry, depth) => (
             <Leaf
               key={entry.key}

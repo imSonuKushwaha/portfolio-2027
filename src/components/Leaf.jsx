@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 
-// One acetate leaf in the stack. `entry.motion` is "turn-in" when a pointer opened it,
-// "turn-out" while a pointer closes it, or null (keyboard: no motion).
+// One acetate leaf in the stack. `entry.motion` is "slide-in" while it slides out of the band,
+// "slide-out" while it slides back in, or null when it replaced another leaf in place.
 // `isTop` marks the leaf that owns focus; leaves under it stay drawn but inert.
 // A record's `children` render inline as headed detail sections; the leaf scrolls.
 // `onBack` (nested leaves only) closes this leaf; `onClose` closes the whole stack.
