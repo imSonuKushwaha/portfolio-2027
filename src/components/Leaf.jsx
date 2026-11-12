@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import SkillChips from './SkillChips.jsx'
 
 // One acetate leaf in the stack. `entry.motion` is "slide-in" while it slides out of the band,
 // "slide-out" while it slides back in, or null when it replaced another leaf in place.
@@ -55,9 +56,7 @@ export default function Leaf({ entry, depth, isTop, onBack, onClose }) {
         {record.points?.length > 0 && (
           <ul className="points">{record.points.map((p) => <li key={p}>{p}</li>)}</ul>
         )}
-        {record.tags?.length > 0 && (
-          <ul className="chips" aria-label="Tools">{record.tags.map((t) => <li key={t}>{t}</li>)}</ul>
-        )}
+        {record.tags?.length > 0 && <SkillChips names={record.tags} label="Tools" />}
         {record.children?.map((c) => (
           <section className="detail" key={c.id} aria-labelledby={`detail-${c.id}`}>
             <h3 id={`detail-${c.id}`} className="detail-title">{c.title}</h3>
@@ -67,9 +66,7 @@ export default function Leaf({ entry, depth, isTop, onBack, onClose }) {
             {c.points?.length > 0 && (
               <ul className="points">{c.points.map((p) => <li key={p}>{p}</li>)}</ul>
             )}
-            {c.tags?.length > 0 && (
-              <ul className="chips" aria-label="Tools">{c.tags.map((t) => <li key={t}>{t}</li>)}</ul>
-            )}
+            {c.tags?.length > 0 && <SkillChips names={c.tags} label="Tools" />}
           </section>
         ))}
       </div>

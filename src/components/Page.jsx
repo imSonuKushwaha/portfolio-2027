@@ -2,6 +2,7 @@ import { forwardRef } from 'react'
 import { profile } from '../content.js'
 import { hueVars } from '../hues.js'
 import RecordList from './RecordList.jsx'
+import SkillChips from './SkillChips.jsx'
 
 // The page for the current route: the Contents page, or one section.
 // The forwarded ref lands on the page heading so navigation can move focus to it.
@@ -80,7 +81,7 @@ function SectionBody({ section, onOpen, selectedId }) {
           {section.groups.map(([name, items]) => (
             <section className="group" key={name}>
               <h2 className="label">{name}</h2>
-              <ul className="chips">{items.map((t) => <li key={t}>{t}</li>)}</ul>
+              <SkillChips names={items} />
             </section>
           ))}
         </div>
