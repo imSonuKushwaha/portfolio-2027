@@ -10,10 +10,12 @@ const ORDER = ['contents', ...sections.map((s) => s.id)]
 const SLIDE_OUT_MS = 220
 const FADE_OUT_MS = 90
 
-// The page id from the address: "#/experience" → "experience"; anything unknown → "contents".
-const readRoute = () => {
-  const id = window.location.hash.replace(/^#\/?/, '')
-  return ORDER.includes(id) ? id : 'contents'
+// The page and open leaf from the address: "#/experience/ripik" → page "experience", leaf "ripik".
+// An unknown page reads as "contents"; a leaf id only counts on a page with records.
+const readHash = () => {
+  const [id = '', leafId = null] = window.location.hash.replace(/^#\/?/, '').split('/')
+  const route = ORDER.includes(id) ? id : 'contents'
+  return { route, leafId: route === 'contents' ? null : leafId || null }
 }
 const hrefFor = (id) => (id === 'contents' ? '#/' : `#/${id}`)
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -21,7 +23,7 @@ const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: r
 let nextKey = 1
 
 export default function App() {
-  const [route, setRoute] = useState(readRoute)
+  const [{ route, leafId }, setLocation] = useState(readHash)
   // Open leaves, bottom to top: { key, record, motion, opener }.
   const [stack, setStack] = useState([])
   const stackRef = useRef(stack)
@@ -29,12 +31,16 @@ export default function App() {
   const pageRef = useRef(null)
   const headingRef = useRef(null)
   const firstRoute = useRef(true)
+  // The card that asked for the next leaf, so focus can return to it on close.
+  const openerRef = useRef(null)
+  // True while the open leaf's history entry was pushed by this tab, so closing can go back.
+  const pushedRef = useRef(false)
 
   const section = sections.find((s) => s.id === route)
   const hue = section?.hue ?? 'neutral'
 
   useEffect(() => {
-    const onHash = () => setRoute(readRoute())
+    const onHash = () => setLocation(readHash())
     window.addEventListener('hashchange', onHash)
     return () => window.removeEventListener('hashchange', onHash)
   }, [])
@@ -42,24 +48,23 @@ export default function App() {
   // A new page closes every leaf, returns to the top and moves focus to the page heading.
   useEffect(() => {
     setStack([])
+    pushedRef.current = false
     if (firstRoute.current) { firstRoute.current = false; return }
     window.scrollTo(0, 0)
     headingRef.current?.focus({ preventScroll: true })
   }, [route])
 
-  // Opens `record` at `depth`, replacing any leaves from there up. A leaf slides out of the
-  // section's band on every open, by pointer or key; swapping an open leaf for another has no motion.
+  // Opening a card adds its leaf to the address ("#/experience/ripik"), as a new history entry,
+  // so the browser or phone Back button closes the leaf. The address change opens it below.
   const openAt = useCallback((depth) => (record, event) => {
-    const opener = event.currentTarget
-    setStack((s) => {
-      const swap = depth === 0 && s.length > 0
-      return [...s.slice(0, depth), { key: nextKey++, record, motion: swap ? null : 'slide-in', opener }]
-    })
-  }, [])
+    openerRef.current = event.currentTarget
+    pushedRef.current = true
+    window.location.hash = `#/${route}/${record.id}`
+  }, [route])
 
   // Closes the leaves at `depth` and above: they slide back into the band, then unmount.
   // Focus returns to the control that opened the lowest closed leaf.
-  const closeFrom = useCallback((depth) => {
+  const animateClose = useCallback((depth) => {
     const s = stackRef.current
     if (depth >= s.length || s[depth].motion === 'slide-out') return
     const opener = s[depth].opener
@@ -74,6 +79,34 @@ export default function App() {
       refocus()
     }, prefersReducedMotion() ? FADE_OUT_MS : SLIDE_OUT_MS)
   }, [])
+
+  // The address decides which leaf is open: a leaf id slides its record's leaf out; no leaf id
+  // slides any open leaf back. Back, Forward, a shared link and a reload all go through here.
+  useEffect(() => {
+    const record = leafId ? section?.records?.find((r) => r.id === leafId) : null
+    const top = stackRef.current[0]
+    if (record) {
+      if (top?.record.id === record.id && top.motion !== 'slide-out') return
+      setStack([{ key: nextKey++, record, motion: 'slide-in', opener: openerRef.current }])
+      openerRef.current = null
+    } else if (top) {
+      pushedRef.current = false
+      animateClose(0)
+    }
+  }, [leafId, section, animateClose])
+
+  // Close, Esc, a click outside or the section crumb: step back off the leaf's history entry when
+  // this tab added it, otherwise (a shared link or reload) drop the leaf id from the address.
+  const closeFrom = useCallback(() => {
+    if (!leafId) return
+    if (pushedRef.current) {
+      pushedRef.current = false
+      window.history.back()
+    } else {
+      window.history.replaceState(null, '', `#/${route}`)
+      setLocation({ route, leafId: null })
+    }
+  }, [leafId, route])
 
   const leavesOpen = stack.length > 0
   // The whole stack is on its way back into the band: the page un-dims alongside it.
