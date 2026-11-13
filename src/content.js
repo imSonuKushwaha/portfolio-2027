@@ -34,7 +34,6 @@ export const sections = [
     ],
     facts: [
       ['experience', '3+ years'],
-      ['companies', '4 + 1 internship'],
       ['problems solved', '1,000+'],
       ['degree', 'B.Tech CSE, DTU'],
     ],
