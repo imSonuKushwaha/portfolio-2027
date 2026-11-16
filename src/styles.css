@@ -48,8 +48,7 @@ html {
 html::-webkit-scrollbar, .leaf::-webkit-scrollbar { width: 12px; }
 html::-webkit-scrollbar-track { background: var(--sheet); border-left: 1px solid var(--ink); }
 .leaf::-webkit-scrollbar-track { background: var(--acetate); border-left: var(--hairline); }
-html::-webkit-scrollbar-thumb { background: var(--ink); border: 3px solid var(--sheet); border-left-width: 4px; }
-.leaf::-webkit-scrollbar-thumb { background: var(--ink); border: 3px solid var(--acetate); border-left-width: 4px; }
+html::-webkit-scrollbar-thumb, .leaf::-webkit-scrollbar-thumb { background: var(--ink); }
 html::-webkit-scrollbar-thumb:hover, .leaf::-webkit-scrollbar-thumb:hover { background: color-mix(in oklch, var(--ink) 78%, var(--sheet)); }
 @supports not selector(::-webkit-scrollbar) {
   html { scrollbar-color: var(--ink) var(--sheet); }

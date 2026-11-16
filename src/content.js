@@ -30,12 +30,12 @@ export const sections = [
     heading: 'Frontend developer for industrial AI',
     body: [
       'I am a frontend developer with 3+ years of experience, working mostly in ReactJS, Redux, Vite, Tailwind CSS, Material UI and Chart.js, with Node.js, MongoDB and Flutter when a product needs them. I like systems where one feature lives in one place, interfaces that stay fast with large amounts of data, and software that keeps running on a customer’s own servers.',
-      'I started at Delhi Technological University, where I studied Computer Engineering on a Government of India scholarship and co-authored an IEEE paper on image synthesis with GANs and diffusion models. My first taste of product work was a summer internship at Khudra Corporation in 2022, building reusable React components for an e-commerce store. After graduating, I joined Maroon Engineering Solution, where I worked across the MERN stack and shipped ePasal, a Flutter mobile app. At Nagarik Solution I built interfaces for a hospital system, and learned what it takes to design for clinical users and regulated data. At KRM Ayurveda I took on a much bigger role: I built the entire frontend of the company’s CRM from scratch, led an intern, and moved a hospital chain off WhatsApp, Excel and Google Forms onto one platform used every day by 60–70 agents. Today I am at Ripik.ai, building the frontend of Vision, an AI platform that turns live and thermal camera feeds into decisions for industrial plants. I have worked on more than 35 of its use cases, helped harden and automate its on-prem deployments, and on my own initiative rebuilt its frontend as IntelliVerse V3, a single config-driven module system. I am now taking those modules further with GODashboard, a tool that builds any dashboard from one config.',
+      'I studied Computer Engineering at Delhi Technological University on a Government of India scholarship, and co-authored an IEEE paper on image synthesis with GANs and diffusion models. After an internship at Khudra Corporation, I worked across the MERN stack at Maroon Engineering Solution and shipped ePasal, a Flutter app. I then built clinical interfaces for a hospital system at Nagarik Solution. At KRM Ayurveda I took on a much bigger role: I built the entire frontend of the company’s CRM from scratch, led an intern, and moved a hospital chain off WhatsApp, Excel and Google Forms onto one platform used every day by 60–70 agents. Today I am at Ripik.ai, building the frontend of IntelliVerse, an industrial AI platform whose main product, Vision, turns live and thermal camera feeds into decisions for plants. I have worked on more than 35 of its use cases, helped harden and automate its on-prem deployments, and on my own initiative rebuilt its frontend as IntelliVerse V3, a single config-driven module system. I am now taking those modules further with GODashboard, a tool that builds any dashboard from one config.',
     ],
     facts: [
       ['experience', '3+ years'],
       ['problems solved', '1,000+'],
-      ['degree', 'B.Tech CSE, DTU'],
+      ['degree', 'B.Tech Computer Engineering, DTU'],
     ],
   },
   {
@@ -43,7 +43,7 @@ export const sections = [
     label: 'Experience',
     tab: 'Work',
     hue: 'ultramarine',
-    blurb: 'Four roles and an internship across industrial AI, CRM, healthcare and product work. Open a card for the details.',
+    blurb: 'Industrial AI, CRM, healthcare and product work, from internship to today. Open a card for the details.',
     kind: 'records',
     heading: 'Where I have worked',
     records: [
@@ -62,7 +62,7 @@ export const sections = [
           {
             id: 'ripik-intelliverse',
             title: 'IntelliVerse',
-            meta: 'main platform · ~1,950 commits · Feb 2026 – present',
+            meta: 'main platform · ~1,950 commits · Feb 2026 – Present',
             summary: 'IntelliVerse is Ripik’s industrial AI platform, used by steel, cement, mining and pharma plants. Its main product, Vision, reads live and thermal camera feeds on site and detects defects, material size, moisture, safety violations, truck movement and more. Around Vision sit per-client user management, custom tools and client dashboards. I work across all of it.',
             points: [
               'Vision use cases: built and enhanced 35+ of them, about 80% of my time, split between building new use cases and changing ones already in production.',
@@ -98,7 +98,7 @@ export const sections = [
             points: [
               'Reworked the DCS dashboard for Sun Pharma sites, starting from the existing one: summary cards with a waterfall chart, equipment occupancy, and planned-versus-actual volume as a chart and a table, with searchable multi-select filters.',
               'Sent each client’s requests to its own backend through a request interceptor, so one frontend serves several clients.',
-              'Built the sections of a manpower executive dashboard on top of the existing executive dashboard (utilisation, skills, multi-skilling, allocation, absenteeism and cross-block movement), and improved room and machine utilisation charts with paging, sorting and filters.',
+              'Inside Optimus for Machines, built a manpower executive dashboard on top of its existing executive dashboard (utilisation, skills, multi-skilling, allocation, absenteeism and cross-block movement), and improved room and machine utilisation charts with paging, sorting and filters.',
               'Added output-file downloads, an upload option for external inputs, schedule date filters and a rewritten sidebar.',
             ],
             tags: ['ReactJS', 'Redux', 'ApexCharts', 'Chart.js', 'MUI X Data Grid Pro'],
@@ -131,8 +131,8 @@ export const sections = [
           {
             id: 'ripik-config',
             title: 'Config-driven UI',
-            meta: 'one module set, ~40 products',
-            summary: 'Building 40 separate interfaces was not possible, so the UI is assembled from config.',
+            meta: 'one module set, 35+ use cases',
+            summary: 'Each use case needs the same tabs with different data, so the UI is built once as modules and assembled from config.',
             points: [
               'UI blocks are built once as modules and triggered by config.',
               'A new use case imports the modules it needs and saves its features and behaviour as config.',
@@ -161,17 +161,13 @@ export const sections = [
         meta: 'Frontend Developer · Dec 2024 – Oct 2025',
         summary: 'KRM Ayurveda runs a chain of Ayurvedic hospitals across India, treating many conditions with a focus on kidney and heart care. I built the entire frontend of the company’s own CRM from scratch: one platform the whole company works in, from the first sales call to the final delivery.',
         points: [
-          'Built the complete frontend from scratch as the lead, and only full-time, frontend developer on a team of three: me, one senior backend developer and a frontend intern.',
-          'Designed and built every dashboard in the product, and engineered almost all of the frontend myself.',
+          'Built the complete frontend from scratch as the lead, and only full-time, frontend developer on a team of three: me, one senior backend developer and a frontend intern. I designed every dashboard and wrote almost all of the frontend code myself.',
           'Led the intern: broke the work into tasks, assigned them and reviewed every change before it merged.',
           'Replaced a patchwork of small third-party tools, WhatsApp groups, Excel sheets and Google Forms with one system shared by every department.',
-          'Used daily by 60–70 calling agents, about 9 hours a day, plus sales, logistics, accounts, doctors and delivery teams.',
           'Built profile-based dashboards so each role sees its own data and actions: Super Admin, Doctors, Salespersons and the Tech team.',
           'Managed application state with Redux, and React Context where a screen needed its own custom state handling.',
           'Kept every screen live with WebSocket updates instead of polling, and handled large lists with server-side pagination.',
-          'Integrated third-party APIs for calling and for delivery, so calls and shipments are tracked inside the CRM.',
-          'Worked closely with the Django backend developer on API design and data contracts.',
-          'Delivered Phase 1 in about 6 months, then spent about 3 more months polishing and fixing bugs with real users.',
+          'Integrated third-party APIs for calling and delivery so both are tracked inside the CRM, and worked with the Django backend developer on API design and data contracts.',
         ],
         tags: ['ReactJS', 'Redux', 'React Context', 'Bootstrap', 'WebSocket', 'Server-side pagination', 'REST', 'Django', 'RBAC'],
         children: [
@@ -233,14 +229,10 @@ export const sections = [
         meta: 'Frontend Developer · Apr 2024 – Aug 2024',
         summary: 'A frontend role on the Central Hospital System, a healthcare product where I learned to build interfaces for clinical users and regulated data.',
         points: [
-          'Co-designed and developed a responsive, accessible user interface for the Central Hospital System. I worked closely with healthcare professionals throughout, so the screens matched how clinical staff actually work and stayed simple to use during a busy day.',
+          'Co-designed and built a responsive, accessible interface for the Central Hospital System with healthcare professionals, so the screens matched how clinical staff work and stayed simple during a busy day.',
           'Kept the interface compliant with NHMIS (National Health Management Information System) standards, which set how health information is recorded and reported.',
-          'Integrated the system’s REST APIs and added real-time data updates, so staff saw current information without refreshing. This reduced system response time and improved data accuracy by 70%.',
-          'Investigated and resolved critical bugs, and added preventive fixes so the same problems would not come back, improving the overall reliability of the system.',
+          'Integrated the system’s REST APIs and added real-time data updates, so staff saw current information without refreshing, improving data accuracy by 70%.',
           'Built data-entry forms with field validation and clear error messages, so incomplete or badly formatted records were caught before they reached the server.',
-          'Handled loading, empty and error states for every API call, so users always knew whether data was on its way, missing or failed.',
-          'Tested screens across browsers and screen sizes, from desktop monitors at the front desk to smaller laptops and tablets.',
-          'Worked in a Git branch-and-pull-request workflow, took part in code reviews, and joined the team’s daily stand-ups and sprint planning.',
         ],
         tags: ['ReactJS', 'REST', 'real-time', 'accessibility'],
       },
@@ -252,7 +244,7 @@ export const sections = [
         points: [
           'Built a responsive website with 17 key features on the MERN stack: ReactJS on the frontend, Express with Node.js on the server and MongoDB for data, styled with Tailwind CSS and Material UI.',
           'Optimised the responsiveness of every page, especially on mobile screens, so the same site also worked as a mobile web app without a separate build.',
-          'Built and shipped ePasal, a production-ready mobile app written in Flutter and Dart, taking it from development through to a release-ready app.',
+          'Built and shipped ePasal, a Flutter and Dart mobile app, from first screen to release.',
           'Turned Figma designs into reusable React components, keeping spacing, colours and typography consistent across the site.',
           'Set up client-side routing and shared state, and connected the screens to the Express REST API, testing each endpoint in Postman first.',
           'Wrote Express routes and MongoDB queries for the features I owned, so I could take a feature from the database to the screen.',
@@ -265,7 +257,7 @@ export const sections = [
         id: 'khudra',
         title: 'Khudra Corporation',
         meta: 'Front-End Web Developer Intern · Jun 2022 – Aug 2022',
-        summary: 'A summer internship during college, and my first experience building a product front end with a team.',
+        summary: 'A summer internship during college, and my first experience building a product frontend with a team.',
         points: [
           'Built an e-commerce page in ReactJS and Bootstrap, splitting it into 5 reusable React components so the same pieces could be used on other pages of the store.',
           'Followed the design guidelines closely, matching layout, spacing and styling, so the page fitted the rest of the shopping experience and felt consistent to customers.',
@@ -297,7 +289,6 @@ export const sections = [
           'A dashboard-wide filter sets every item’s filters in one step (for example, a date range for the whole page), and each item’s filters can still be changed on its own afterwards.',
           'Stat cards can work as filters: clicking one, say “Defects”, shows only that series in the page’s charts, and the card is outlined in that series’ colour while it is applied.',
           'Status chips above the records table keep only the matching rows, and the table grows to fill the screen, never shorter than 500 px.',
-          'Ongoing: started in November 2026 and growing as new dashboard needs come up.',
         ],
         tags: ['ReactJS', 'Vite', 'Chart.js', 'Tailwind CSS', 'Material UI', 'JSON config'],
         children: [
@@ -362,7 +353,7 @@ export const sections = [
         id: 'v3',
         title: 'IntelliVerse V3',
         meta: 'Solo frontend rebuild · Aug – Oct 2026 · 518 commits',
-        summary: 'A from-scratch, DRY, config-driven module system where one component renders every industrial AI vision use case from JSON config.',
+        summary: 'IntelliVerse is Ripik’s industrial AI platform, where each vision use case shows live camera feeds, alerts, analytics and reports. On my own initiative I rebuilt its frontend from scratch as a DRY, config-driven module system, where one component renders 20+ use cases from JSON config.',
         points: [
           'Build size down 84% (67 MB → 10.5 MB), JS bundle down 70% (14 MB → 4.2 MB), JS chunks down 90% (434 → 42).',
           'Codebase down 88% (687k → 80k lines) for migrated use cases; 40+ copy-pasted modules replaced.',
@@ -398,12 +389,12 @@ export const sections = [
           {
             id: 'v3-config',
             title: 'Config system',
-            meta: '4 steps per new use case',
+            meta: 'config, wrapper, route',
             summary: 'Blocks are written once and referenced by path.',
             points: [
-              'Path resolver with [field=value] selectors and {cameraId} placeholders.',
-              'One combination-key mechanism, filter gate, guarded polling and a layered request body.',
-              'New use case: write config, add a thin wrapper, add a lazy route.',
+              'A filter, chart, table or pop-up is defined once in a config library; pages point to it by path, and the path can pick an item by field or fill in the current camera.',
+              'Shared request logic: one way to tell which plant and camera data belongs to, no loading until the required filters are set, polling that recovers if a request gets stuck, and request bodies built up in layers.',
+              'A new use case needs only its config, a thin wrapper and a lazy-loaded route.',
             ],
             tags: ['DRY', 'JSON config'],
           },
@@ -425,7 +416,7 @@ export const sections = [
           {
             id: 'tcms',
             title: 'Test Case Management System',
-            meta: 'React 18 · Vite · Tailwind CSS · React Router · Recharts · Jan 2026',
+            meta: 'ReactJS · Vite · Tailwind CSS · React Router · Recharts · Jan 2026',
             links: [
               { label: 'Live demo', href: 'https://imsonukushwaha.github.io/Test-Case-Management-System/#/login' },
               { label: 'Repository', href: 'https://github.com/imSonuKushwaha/Test-Case-Management-System' },
@@ -444,7 +435,7 @@ export const sections = [
           {
             id: 'matbook',
             title: 'Employee Onboarding — dynamic form engine',
-            meta: 'React · Vite · Tailwind CSS · shadcn/ui · React Query · Node.js · Express',
+            meta: 'ReactJS · Vite · Tailwind CSS · shadcn/ui · React Query · Node.js · ExpressJS',
             links: [{ label: 'Repository', href: 'https://github.com/imSonuKushwaha/matBookApp' }],
             summary: 'A full-stack form system where the backend describes the form and the frontend draws it.',
             points: [
@@ -458,7 +449,7 @@ export const sections = [
           {
             id: 'reactchat',
             title: 'React Chat',
-            meta: 'React · Vite · Firebase · Zustand',
+            meta: 'ReactJS · Vite · Firebase · Zustand',
             links: [{ label: 'Repository', href: 'https://github.com/imSonuKushwaha/reactChat' }],
             summary: 'A real-time chat app: create an account, add friends and talk.',
             points: [
@@ -472,7 +463,7 @@ export const sections = [
           {
             id: 'taskmanager',
             title: 'Task Manager',
-            meta: 'React · Vite · Tailwind CSS · @hello-pangea/dnd',
+            meta: 'ReactJS · Vite · Tailwind CSS · @hello-pangea/dnd',
             links: [{ label: 'Repository', href: 'https://github.com/imSonuKushwaha/Task-Manager' }],
             summary: 'A task board with drag and drop.',
             points: [
@@ -485,7 +476,7 @@ export const sections = [
           {
             id: 'usersdirectory',
             title: 'Users Directory',
-            meta: 'React 18 · Vite · Redux Toolkit · Tailwind CSS · Vitest',
+            meta: 'ReactJS · Vite · Redux Toolkit · Tailwind CSS · Vitest',
             links: [{ label: 'Repository', href: 'https://github.com/imSonuKushwaha/stantech' }],
             summary: 'A searchable directory of users from a public API.',
             points: [
@@ -554,8 +545,8 @@ export const sections = [
           },
           {
             id: 'early',
-            title: 'Where I started',
-            meta: '2024 · practice projects and research',
+            title: 'Early projects',
+            meta: 'practice projects and research',
             links: [
               { label: 'Voice cloning', href: 'https://github.com/imSonuKushwaha/voice-Cloning' },
               { label: 'Text editor', href: 'https://github.com/imSonuKushwaha/textEditor' },
@@ -563,11 +554,11 @@ export const sections = [
             ],
             summary: 'The projects I learned on.',
             points: [
-              'A password generator, built first in plain JavaScript and again in Next.js with Tailwind CSS.',
+              'A password generator, built first in plain JavaScript and again in NextJS with Tailwind CSS.',
               'A text editor in React: convert to upper or lower case, remove extra spaces, copy and clear.',
               'An online shop layout in HTML and CSS with home, product list, product details, cart and account pages, and a set of CSS animation exercises.',
               'A login and home page flow in React and Tailwind CSS with a session kept in local storage.',
-              'A study and implementation of the research paper “Real-Time Voice Cloning” (Corentin Jemine, 2018), with a written report, a presentation and voice samples.',
+              'A study of the research paper “Real-Time Voice Cloning” (see Practice → AI and ML study).',
             ],
             tags: ['learning', 'research'],
           },
@@ -592,13 +583,12 @@ export const sections = [
     ],
   },
   {
-    id: 'problem-solving',
-    label: 'Problem Solving',
-    tab: 'Practice',
+    id: 'practice',
+    label: 'Practice',
     hue: 'violet',
     blurb: '1,000+ problems solved since 2021, plus UI craft and AI practice.',
     kind: 'records',
-    heading: 'Practice',
+    heading: 'How I stay sharp',
     records: [
       {
         id: 'leetcode',
@@ -692,9 +682,8 @@ export const sections = [
         summary: 'Practice on the details that make an interface feel finished: layout, motion and interaction.',
         points: [
           'A set of CSS animation exercises: keyframes, transitions and transforms on layouts built from scratch.',
-          'Drawing graphics in code: every flower in Bloom & Beloved is an SVG generated by JavaScript, so it scales cleanly and needs no image files.',
-          'Micro-interactions: in InstaBuddies each press of “No” shrinks that button and grows “Yes”, with layout that re-centres itself as the sizes change.',
-          'Motion with intent in real products: this portfolio steps state changes in two frames and turns a leaf on its hinge only when it is opened with a pointer.',
+          'SVG graphics drawn in code and playful micro-interactions in Bloom & Beloved and InstaBuddies (details under Projects → Mobile apps & playground).',
+          'Motion with intent in real products: on this portfolio, detail panels slide out of the section band and close with the Back button.',
         ],
         tags: ['CSS', 'SVG', 'JavaScript', 'animation'],
       },
