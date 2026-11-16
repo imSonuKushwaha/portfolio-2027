@@ -163,7 +163,10 @@ export default function App() {
       <a className="skip-link" href="#main">Skip to content</a>
 
       <header className="topbar">
-        <a className="topbar-title" href="#/">{profile.name}</a>
+        <a className="topbar-title" href="#/">
+          <img className="topbar-mark" src={`${import.meta.env.BASE_URL}favicon.svg`} alt="" width="22" height="22" />
+          {profile.name}
+        </a>
         <nav className="topbar-links label" aria-label="Profiles">
           <a className="topbar-more" href={`mailto:${profile.email}`}>Email</a>
           {profile.links.map((l) => <a key={l.href} className="topbar-more" href={l.href} target="_blank" rel="noreferrer">{l.label}</a>)}

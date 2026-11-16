@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Three rail tabs in the About, Work and Projects hues, on a straight left edge.
+       Each ply steps further out than the one above, so the stack reads as moving forward. -->
+  <g stroke="#16181a" stroke-width="1.5" stroke-linejoin="round">
+    <path d="M1.75 1.75h15a4 4 0 0 1 4 4v3.5a4 4 0 0 1-4 4h-15z" fill="#e8742c"/>
+    <path d="M1.75 10.25h20a4 4 0 0 1 4 4v3.5a4 4 0 0 1-4 4h-20z" fill="#2c4fb5"/>
+    <path d="M1.75 18.75h25a4 4 0 0 1 4 4v3.5a4 4 0 0 1-4 4h-25z" fill="#f2c21b"/>
+  </g>
+</svg>

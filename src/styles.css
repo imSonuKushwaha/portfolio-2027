@@ -91,10 +91,13 @@ a { color: inherit; text-underline-offset: 3px; }
   background: var(--sheet);
   border-bottom: 1px solid var(--ink);
 }
+/* The name with the site mark before it; the mark is the same file as the tab icon. */
 .topbar-title {
+  display: inline-flex; align-items: center; gap: 8px;
   font-weight: 700; font-size: 1.125rem; font-stretch: 75%;
   text-transform: uppercase; letter-spacing: -0.01em; text-decoration: none;
 }
+.topbar-mark { flex: none; display: block; }
 .topbar-links { display: flex; gap: 16px; }
 .topbar-links { align-items: center; }
 .topbar-links a { text-decoration: none; }
