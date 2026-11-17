@@ -31,7 +31,6 @@ function Contents({ sections, headingRef }) {
         <p className="label">Reference manual · 2027 edition</p>
         <h1 className="display" ref={headingRef} tabIndex={-1}>Contents</h1>
         <p className="identity data">
-          <span>{profile.role}</span>
           <span>{profile.location}</span>
           <a href={`mailto:${profile.email}`}>{profile.email}</a>
           <a href={profile.resume} target="_blank" rel="noreferrer">Resume ↗</a>

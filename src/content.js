@@ -9,7 +9,6 @@
 
 export const profile = {
   name: 'Sonu Kumar Kushwaha',
-  role: 'Frontend Developer',
   location: 'Noida, India',
   email: 'imxonu@gmail.com',
   resume: 'https://drive.google.com/file/d/1CDcioPyBIhngWfMhdpy_0xMLRD9DxxQu/view?usp=sharing',
@@ -27,9 +26,9 @@ export const sections = [
     blurb: 'Who I am, what I build and how to reach me.',
     showContact: true,
     kind: 'prose',
-    heading: 'Frontend developer for industrial AI',
+    heading: 'Building config-driven platforms for industrial AI',
     body: [
-      'I am a frontend developer with 3+ years of experience, working mostly in ReactJS, Redux, Vite, Tailwind CSS, Material UI and Chart.js, with Node.js, MongoDB and Flutter when a product needs them. I like systems where one feature lives in one place, interfaces that stay fast with large amounts of data, and software that keeps running on a customer’s own servers.',
+      'I have 3+ years of experience building products, working mostly in ReactJS, Redux, Vite, Tailwind CSS, Material UI and Chart.js, with Node.js, MongoDB and Flutter when a product needs them. I like systems where one feature lives in one place, interfaces that stay fast with large amounts of data, and software that keeps running on a customer’s own servers.',
       'I studied Computer Engineering at Delhi Technological University on a Government of India scholarship, and co-authored an IEEE paper on image synthesis with GANs and diffusion models. After an internship at Khudra Corporation, I worked across the MERN stack at Maroon Engineering Solution and shipped ePasal, a Flutter app. I then built clinical interfaces for a hospital system at Nagarik Solution. At KRM Ayurveda I took on a much bigger role: I built the entire frontend of the company’s CRM from scratch, led an intern, and moved a hospital chain off WhatsApp, Excel and Google Forms onto one platform used every day by 60–70 agents. Today I am at Ripik.ai, building the frontend of IntelliVerse, an industrial AI platform whose main product, Vision, turns live and thermal camera feeds into decisions for plants. I have worked on more than 35 of its use cases, helped harden and automate its on-prem deployments, and on my own initiative rebuilt its frontend as IntelliVerse V3, a single config-driven module system. I am now taking those modules further with GODashboard, a tool that builds any dashboard from one config.',
     ],
     facts: [
